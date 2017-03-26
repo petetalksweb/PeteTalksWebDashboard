@@ -27,6 +27,7 @@ function getCurrentTabUrl(callback) {
     // A tab is a plain object that provides information about the tab.
     // See https://developer.chrome.com/extensions/tabs#type-Tab
     var url = tab.url;
+      var title = tab.title;
 
     // tab.url is only available if the "activeTab" permission is declared.
     // If you want to see the URL of other tabs (e.g. after removing active:true
@@ -34,7 +35,7 @@ function getCurrentTabUrl(callback) {
     // "url" properties.
     console.assert(typeof url == 'string', 'tab.url should be a string');
 
-    callback(url);
+    callback(title, url);
   });
 
   // Most methods of the Chrome extension APIs are asynchronous. This means that
@@ -91,28 +92,31 @@ function getImageUrl(searchTerm, callback, errorCallback) {
 function renderStatus(statusText) {
   document.getElementById('status').textContent = statusText;
 }
+var toReadListKey = 'PeteTalksWebDashboard:toReadList';
+
+function getToReadList() {
+    var toReadListResponse = localStorage.getItem(toReadListKey);
+    if(toReadListResponse) { // if value has been saved before
+        return JSON.parse(toReadListResponse);
+    }
+    return [];
+}
+
+function setToReadList(toReadList) {
+    localStorage.setItem(toReadListKey, JSON.stringify(toReadList));
+}
+
+function addToReadList(url, title) {
+    var list = getToReadList();
+    list.unshift({'url' : url, 'title' : title});
+    setToReadList(list);
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-  getCurrentTabUrl(function(url) {
+  getCurrentTabUrl(function(title, url) {
     // Put the image URL in Google search.
-    renderStatus('Performing Google Image search for ' + url);
-
-    getImageUrl(url, function(imageUrl, width, height) {
-
-      renderStatus('Search term: ' + url + '\n' +
-          'Google image search result: ' + imageUrl);
-      var imageResult = document.getElementById('image-result');
-      // Explicitly set the width/height to minimize the number of reflows. For
-      // a single image, this does not matter, but if you're going to embed
-      // multiple external images in your page, then the absence of width/height
-      // attributes causes the popup to resize multiple times.
-      imageResult.width = width;
-      imageResult.height = height;
-      imageResult.src = imageUrl;
-      imageResult.hidden = false;
-
-    }, function(errorMessage) {
-      renderStatus('Cannot display image. ' + errorMessage);
-    });
+    renderStatus('Adding to read later list...');
+    addToReadList(url, title);
+      renderStatus('Saved');
   });
 });
