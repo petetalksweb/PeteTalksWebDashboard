@@ -11,8 +11,16 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "contextMenus",
+    "background"
   ],
+  "icons": {
+    "16": "icon.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
   "chrome_url_overrides" : {
     "newtab": "newtab.html"
   }
