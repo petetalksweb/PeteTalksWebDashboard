@@ -1,7 +1,7 @@
-function generateLIs(toReadList) {
-    var toReadListUL = document.getElementById('toReadList');
-    for(var page of toReadList) {
-        toReadListUL.appendChild(generateLI(page));
+function generateLIs(ulID, pages) {
+    var ul = document.getElementById(ulID);
+    for(var page of pages) {
+        ul.appendChild(generateLI(page));
     }
 }
 
@@ -27,5 +27,8 @@ function removeLI(li) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    generateLIs(getToReadList());
+    generateLIs('toReadList', getToReadList());
+    chrome.topSites.get(function(topSites) {
+        generateLIs('topSitesList', topSites);
+    });
 });

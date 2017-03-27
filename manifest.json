@@ -13,7 +13,8 @@
     "activeTab",
     "storage",
     "contextMenus",
-    "background"
+    "background",
+    "topSites"
   ],
   "icons": {
     "16": "icon.png"
