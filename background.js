@@ -5,3 +5,10 @@ chrome.contextMenus.create({
         alert('yo yo yo');
     }
 });
+chrome.contextMenus.create({
+    "title": "Add link to read later list",
+    "contexts": ["link"],
+    "onclick": function() {
+        alert('yo yo yo');
+    }
+});
