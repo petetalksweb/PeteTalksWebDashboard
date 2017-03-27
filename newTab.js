@@ -1,11 +1,11 @@
 function generateLIs(ulID, pages) {
     var ul = document.getElementById(ulID);
     for(var page of pages) {
-        ul.appendChild(generateLI(page));
+        ul.appendChild(generateLI(ulID, page));
     }
 }
 
-function generateLI(pageObject) {
+function generateLI(ulID, pageObject) {
     var li = document.createElement('li');
     var a = document.createElement('a');
     a.href = pageObject.url;
@@ -13,15 +13,15 @@ function generateLI(pageObject) {
     li.appendChild(a);
     var close = document.createElement('div');
     close.onclick = function(event) {
-        removeLI(event.srcElement.parentNode);
+        removeLI(ulID, event.srcElement.parentNode);
     };
     close.innerHTML = 'xxx';
     li.appendChild(close);
     return li;
 }
 
-function removeLI(li) {
-    document.getElementById('toReadList').removeChild(li);
+function removeLI(ulID, li) {
+    document.getElementById(ulID).removeChild(li);
     var aTag = li.getElementsByTagName('a')[0]
     deleteFromReadList(aTag.href, aTag.innerHTML);
 }
