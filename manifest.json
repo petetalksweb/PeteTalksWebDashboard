@@ -19,7 +19,7 @@
     "16": "icon.png"
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["storage.js", "background.js"]
   },
   "chrome_url_overrides" : {
     "newtab": "newtab.html"
