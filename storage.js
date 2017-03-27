@@ -17,3 +17,10 @@ function addToReadList(url, title) {
     list.unshift({'url' : url, 'title' : title});
     setToReadList(list);
 }
+
+function deleteFromReadList(url, title) {
+    var list = getToReadList();
+    var indexToDelete = list.indexOf({'url' : url, 'title' : title});
+    list.splice(indexToDelete, 1);
+    setToReadList(list);
+}
