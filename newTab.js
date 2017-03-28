@@ -9,7 +9,10 @@ function generateLI(ulID, pageObject) {
     var li = document.createElement('li');
     var a = document.createElement('a');
     a.href = pageObject.url;
-    a.innerHTML = pageObject.title;
+    if(pageObject.text) {
+        a.innerHTML = pageObject.text;
+    }
+    a.innerHTML += pageObject.title;
     li.appendChild(a);
     var close = document.createElement('div');
     close.onclick = function(event) {
@@ -28,6 +31,7 @@ function removeLI(ulID, li) {
 
 document.addEventListener('DOMContentLoaded', function() {
     generateLIs('toReadList', getToReadList());
+    generateLIs('snippetsList', getSnippetsList());
     chrome.topSites.get(function(topSites) {
         generateLIs('topSitesList', topSites);
     });
